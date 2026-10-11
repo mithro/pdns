@@ -1,0 +1,56 @@
+name: Debian packages
+
+# Every push to packaging builds pdns-recursor for each suite and
+# architecture the declaration (.github/apt-packaging.toml) names, install-
+# tests it, and republishes a signed apt repository per suite on GitHub Pages
+# (https://mith.ro/pdns/<suite>/). A pull request builds the same packages
+# and publishes nothing.
+#
+# This follows mithro/apt-repo-action's docs/packaging.md (Set A: packaging
+# is upstream plus our changes; see packaging/README.md).
+on:
+  push:
+    branches: [packaging]
+  pull_request:
+  workflow_dispatch:
+
+# Least privilege by default: only the publish job below raises this, and only
+# for itself. The build jobs run Docker, so they should never hold a token
+# that can write to Pages.
+permissions:
+  contents: read
+
+concurrency:
+  group: deb-${{ github.ref }}
+  # A newer push to a pull request cancels the older build. On the default
+  # branch a running publish is never cancelled: the newest push waits for it,
+  # and replaces any older push still waiting (it contains that one's commits).
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build-deb:
+    uses: mithro/apt-repo-action/.github/workflows/build-deb.yml@main
+    with:
+      # The Set A version, from the shared scripts/deb-version.py. Upstream
+      # tags three products in one repository (auth-*, dnsdist-*, rec-*):
+      # only the recursor's are this package's releases.
+      version-args: --owner-tag welland --upstream-branch upstream --upstream-tag-match rec-[0-9]*
+
+  publish-apt:
+    # Scoped to this job alone. A job calling a reusable workflow sets the
+    # maximum permissions available to it, so the elevated Pages scopes stay
+    # here rather than applying to the whole workflow.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # Build and install-test pull requests, but never publish from one (or
+    # from any branch but packaging).
+    if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+    needs: build-deb
+    uses: mithro/apt-repo-action/.github/workflows/publish-apt.yml@main
+    with:
+      suites: ${{ needs.build-deb.outputs.suites }}
+      description: "PowerDNS Recursor, with an extended DNS error on every ServFail, packaged for Debian"
+    secrets:
+      gpg-private-key: ${{ secrets.APT_GPG_PRIVATE_KEY }}
