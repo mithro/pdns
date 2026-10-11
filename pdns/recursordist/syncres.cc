@@ -685,7 +685,16 @@ int SyncRes::beginResolve(const DNSName& qname, const QType qtype, QClass qclass
 
   set<GetBestNSAnswer> beenthere;
   Context context;
-  int res = doResolve(qname, qtype, ret, depth, beenthere, context);
+  int res = RCode::ServFail;
+  try {
+    res = doResolve(qname, qtype, ret, depth, beenthere, context);
+  }
+  catch (const ImmediateServFailException&) {
+    // The caller turns this into a ServFail answer; let it have the reason, for example the
+    // one checkTotalTime() sets just before throwing.
+    d_extendedError = context.extendedError;
+    throw;
+  }
   d_queryValidationState = context.state;
   d_extendedError = context.extendedError;
 
