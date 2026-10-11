@@ -9,7 +9,11 @@ export CC=clang
 export CXX=clang++
 # lld defaults to xxhash for build-ids, breaks dbgsym lookup
 export DEB_LDFLAGS_MAINT_APPEND = -fuse-ld=lld -Wl,--build-id=sha1
-export RUSTFLAGS = -Clinker-plugin-lto
+# No -Clinker-plugin-lto in RUSTFLAGS: it makes the Rust library LLVM
+# bitcode, which lld can only read when clang and rustc are built on the
+# same LLVM. In forky and sid they are not (rustc 1.96 is LLVM 22, clang and
+# lld are 21), and the link fails: "librecrust.a(...): Invalid record". So
+# the Rust library is ordinary object code, and LTO covers the C++ only.
 
 include /usr/share/dpkg/default.mk
 include /usr/share/rustc/architecture.mk
