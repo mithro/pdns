@@ -1,0 +1,21 @@
+From: Chris Hofstaedtler <zeha@debian.org>
+Date: Fri, 20 Aug 2021 16:58:14 +0000
+Subject: Make testrunner log verbosely
+
+---
+ Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 068707b..c78d1b7 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -104,7 +104,7 @@ TESTS=test_libcrypto
+ 
+ if UNIT_TESTS
+ noinst_PROGRAMS = testrunner
+-TESTS_ENVIRONMENT = env BOOST_TEST_LOG_LEVEL=message BOOST_TEST_RANDOM=1 SRCDIR='$(srcdir)'
++TESTS_ENVIRONMENT = env BOOST_TEST_LOG_LEVEL=test_suite BOOST_TEST_REPORT_LEVEL=detailed SRCDIR='$(srcdir)'
+ TESTS += testrunner
+ else
+ check-local:

@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+  configure)
+    # restore /etc/powerdns/recursor.lua, but not as a conffile
+    if [ -e /etc/powerdns/recursor.lua.dpkg-bak ] && [ ! -e /etc/powerdns/recursor.lua ] && dpkg --compare-versions "$2" le "5.3.1-2"; then
+      echo Restoring /etc/powerdns/recursor.lua
+      mv /etc/powerdns/recursor.lua.dpkg-bak /etc/powerdns/recursor.lua
+    fi
+  ;;
+
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
+#DEBHELPER#
+
+exit 0

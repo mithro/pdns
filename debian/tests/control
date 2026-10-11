@@ -1,0 +1,8 @@
+Tests:
+ smoke,
+Depends:
+ bind9-dnsutils,
+ @,
+Restrictions:
+ isolation-container,
+ needs-root,

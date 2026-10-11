@@ -1,0 +1,5 @@
+Version: 5
+
+Source: https://downloads.powerdns.com/releases/
+Matching-Pattern: pdns-recursor-(5\..*)\.tar\.xz
+Versionmangle: s/-(alpha|beta|rc)/~$1/

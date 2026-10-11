@@ -1,0 +1,83 @@
+Source: pdns-recursor
+Section: net
+Priority: optional
+Standards-Version: 4.5.1
+Maintainer: pdns-recursor packagers <pdns-recursor@packages.debian.org>
+Uploaders:
+ Chris Hofstaedtler <zeha@debian.org>,
+ Marc Haber <mh+debian-packages@zugschlus.de>,
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-cargo,
+ dh-sequence-installsysusers,
+ architecture-is-64-bit,
+ cargo,
+ clang,
+ libboost-context-dev,
+ libboost-dev,
+ libboost-filesystem-dev,
+ libboost-test-dev,
+ libcap-dev,
+ libcurl4-openssl-dev,
+ libfstrm-dev,
+ libluajit-5.1-dev,
+ libprotobuf-dev,
+ librust-base64-dev (>= 0.22.1-1~),
+ librust-bytes-dev,
+ librust-cxx-build-dev (>= 1.0.130-1~),
+ librust-cxx-dev (>= 1.0.130-1~),
+ librust-form-urlencoded-dev,
+ librust-http-body-util-dev,
+ librust-hyper+http1-dev,
+ librust-hyper+server-dev,
+ librust-hyper-rustls-dev,
+ librust-hyper-util+tokio-dev,
+ librust-ipnet-dev (>= 2.8.0-1~),
+ librust-once-cell-dev,
+ librust-once-cell-dev (>= 1.18.0-1~),
+ librust-ring-dev,
+ librust-rustls-dev,
+ librust-rustls-pemfile-dev,
+ librust-rustls-pki-types-dev,
+ librust-serde-derive-dev,
+ librust-serde-dev,
+ librust-serde-yaml-dev (>= 0.9.34~),
+ librust-tokio+net-dev,
+ librust-tokio+rt-dev,
+ librust-tokio-dev,
+ librust-tokio-rustls-dev,
+ librust-uuid-dev,
+ libsnmp-dev,
+ libsodium-dev,
+ libssl-dev,
+ libsystemd-dev,
+ lld,
+ meson,
+ pkgconf,
+ protobuf-compiler,
+ ragel,
+ systemd,
+ systemd-dev | systemd (<< 257),
+Vcs-Git: https://salsa.debian.org/debian/pdns-recursor.git
+Vcs-Browser: https://salsa.debian.org/debian/pdns-recursor
+Homepage: https://www.powerdns.com/
+Rules-Requires-Root: no
+X-Style: black
+
+Package: pdns-recursor
+Architecture: any
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ dns-root-data,
+ publicsuffix,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Built-Using:
+ ${cargo:Built-Using},
+Static-Built-Using:
+ ${cargo:Static-Built-Using},
+X-Cargo-Built-Using: ${cargo:X-Cargo-Built-Using}
+Description: PowerDNS Recursor
+ High-performance resolving name server, utilizing multiple
+ processor and including Lua scripting capabilities.

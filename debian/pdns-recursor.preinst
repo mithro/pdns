@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e
+
+delete_unchanged() {
+  if [ -e "$1" ] && echo "$2 $1" | md5sum --check --status; then
+    echo "Removing unchanged configuration file $1"
+    rm -f "$1"
+  fi
+}
+
+backup_conffile() {
+  if [ -e "$1" ]; then
+    echo "Moving configuration file $1 to $1.dpkg-bak"
+    mv -f "$1" "$1".dpkg-bak
+  fi
+}
+
+case "$1" in
+  install|upgrade)
+    if dpkg --compare-versions "$2" le "5.3.1-2"; then
+      # clean up files we no longer ship
+      delete_unchanged /etc/powerdns/recursor.lua 52659f850195b3a3f07bf9fd3de4a7c0
+      # will be moved back by postinst, if found
+      backup_conffile /etc/powerdns/recursor.lua
+    fi
+  ;;
+esac
+
+#DEBHELPER#

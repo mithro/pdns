@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euxo pipefail
+test -d .git
+gbp pq import --force
+git reset --hard HEAD^
+cd settings/rust
+cargo vendor
+test -d vendor
+find ./vendor/windows*/src/ ! -name 'lib.rs' -type f -exec rm -f {} +
+find ./vendor/winapi*/src/ ! -name 'lib.rs' -type f -exec rm -f {} +
+rm -fr ./vendor/windows*/lib/*.a
+rm -fr ./vendor/winapi*/lib/*.a
+rm -fr ./vendor/winapi*/lib/*.lib
+rm -fr ./vendor/windows*/lib/*.lib
+git add -f .
+git commit -m 'Vendor rust crates' -m 'Gbp-Pq: Name cargo-vendor-crates'
+du -sxh ./vendor
+gbp pq export
+
