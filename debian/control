@@ -2,7 +2,8 @@ Source: pdns-recursor
 Section: net
 Priority: optional
 Standards-Version: 4.5.1
-Maintainer: pdns-recursor packagers <pdns-recursor@packages.debian.org>
+Maintainer: Tim 'mithro' Ansell <me@mith.ro>
+XSBC-Original-Maintainer: pdns-recursor packagers <pdns-recursor@packages.debian.org>
 Uploaders:
  Chris Hofstaedtler <zeha@debian.org>,
  Marc Haber <mh+debian-packages@zugschlus.de>,
@@ -59,8 +60,8 @@ Build-Depends:
  ragel,
  systemd,
  systemd-dev | systemd (<< 257),
-Vcs-Git: https://salsa.debian.org/debian/pdns-recursor.git
-Vcs-Browser: https://salsa.debian.org/debian/pdns-recursor
+Vcs-Git: https://github.com/mithro/pdns.git -b packaging
+Vcs-Browser: https://github.com/mithro/pdns/tree/packaging
 Homepage: https://www.powerdns.com/
 Rules-Requires-Root: no
 X-Style: black
