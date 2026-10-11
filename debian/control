@@ -55,6 +55,7 @@ Build-Depends:
  meson,
  pkgconf,
  protobuf-compiler,
+ publicsuffix,
  ragel,
  systemd,
  systemd-dev | systemd (<< 257),

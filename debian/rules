@@ -40,7 +40,7 @@ export BUILDER_VERSION = $(DEB_VERSION_UPSTREAM)
 
 override_dh_auto_clean:
 	dh_auto_clean
-	rm -f $(REC)/dnslabeltext.cc
+	rm -f $(REC)/dnslabeltext.cc $(REC)/pubsuffix.cc
 	chmod +x $(REC)/mkpubsuffixcc || true
 	rm -rf debian/cargo_registry
 	rm -f target
@@ -48,6 +48,8 @@ override_dh_auto_clean:
 override_dh_auto_configure:
 	$(CARGO) prepare-debian debian/cargo_registry --link-from-system
 	echo> $(REC)/rec-rust-lib/rust/Cargo.lock
+	# The tarball ships pubsuffix.cc. Without it meson downloads the list.
+	debian/mkpubsuffixcc /usr/share/publicsuffix/public_suffix_list.dat > $(REC)/pubsuffix.cc
 	PATH=debian/configure-helpers/:$$PATH dh_auto_configure -- \
 		--sysconfdir=/etc/powerdns \
 		-Db_lto=true \
