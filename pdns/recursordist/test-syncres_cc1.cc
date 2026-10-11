@@ -2238,6 +2238,63 @@ BOOST_AUTO_TEST_CASE(test_cname_target_servfail)
   BOOST_CHECK_EQUAL(ret[0].d_name, target);
 }
 
+BOOST_AUTO_TEST_CASE(test_cname_target_unreachable_ede)
+{
+  /* The CNAME resolves, its target does not: the answer is a ServFail carrying the CNAME, and
+     the extended error explaining the failure of the target must survive the CNAME chase, both
+     when the CNAME comes from the network and when it comes from the cache. */
+  std::unique_ptr<SyncRes> resolver;
+  initSR(resolver);
+  SyncRes::s_addExtendedResolutionDNSErrors = true;
+
+  primeHints();
+
+  const DNSName target("cname.powerdns.com.");
+  const DNSName cnameTarget("cname-target.powerdns.com");
+
+  resolver->setAsyncCallback([&](const ComboAddress& ipAddress, const DNSName& domain, int /* type */, bool /* doTCP */, bool /* sendRDQuery */, int /* EDNS0Level */, struct timeval* /* now */, std::optional<Netmask>& /* srcmask */, const ResolveContext& /* context */, LWResult* res, bool* /* chained */) {
+    if (isRootServer(ipAddress)) {
+      setLWResult(res, 0, false, false, true);
+      addRecordToLW(res, domain, QType::NS, "a.gtld-servers.net.", DNSResourceRecord::AUTHORITY, 172800);
+      addRecordToLW(res, "a.gtld-servers.net.", QType::A, "192.0.2.1", DNSResourceRecord::ADDITIONAL, 3600);
+      return LWResult::Result::Success;
+    }
+    if (ipAddress == ComboAddress("192.0.2.1:53")) {
+      if (domain == target) {
+        setLWResult(res, 0, true, false, false);
+        addRecordToLW(res, domain, QType::CNAME, cnameTarget.toString());
+        return LWResult::Result::Success;
+      }
+      if (domain == cnameTarget) {
+        return LWResult::Result::Timeout;
+      }
+      return LWResult::Result::Success;
+    }
+
+    return LWResult::Result::Timeout;
+  });
+
+  /* CNAME from the network */
+  vector<DNSRecord> ret;
+  int res = resolver->beginResolve(target, QType(QType::A), QClass::IN, ret);
+  BOOST_CHECK_EQUAL(res, RCode::ServFail);
+  BOOST_REQUIRE_EQUAL(ret.size(), 1U);
+  BOOST_CHECK(ret[0].d_type == QType::CNAME);
+  BOOST_REQUIRE(resolver->d_extendedError);
+  BOOST_CHECK_EQUAL(resolver->d_extendedError->infoCode, static_cast<uint16_t>(EDNSExtendedError::code::NoReachableAuthority));
+
+  /* CNAME from the cache */
+  ret.clear();
+  res = resolver->beginResolve(target, QType(QType::A), QClass::IN, ret);
+  BOOST_CHECK_EQUAL(res, RCode::ServFail);
+  BOOST_REQUIRE_EQUAL(ret.size(), 1U);
+  BOOST_CHECK(ret[0].d_type == QType::CNAME);
+  BOOST_REQUIRE(resolver->d_extendedError);
+  BOOST_CHECK_EQUAL(resolver->d_extendedError->infoCode, static_cast<uint16_t>(EDNSExtendedError::code::NoReachableAuthority));
+
+  SyncRes::s_addExtendedResolutionDNSErrors = false;
+}
+
 BOOST_AUTO_TEST_CASE(test_cname_target_servfail_servestale)
 {
   std::unique_ptr<SyncRes> resolver;
