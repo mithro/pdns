@@ -1682,7 +1682,10 @@ void startDoResolve(void* arg) // NOLINT(readability-function-cognitive-complexi
     std::optional<EDNSExtendedError> eee;
     if (haveEDNS) {
       auto state = resolver.getValidationState();
-      if (comboWriter->d_extendedErrorCode || resolver.d_extendedError || (SyncRes::s_addExtendedResolutionDNSErrors && vStateIsBogus(state))) {
+      // A ServFail without an extended error leaves the client guessing whether the name or the
+      // server is at fault, so when we are adding resolution errors, never send one bare.
+      const bool bareServFail = SyncRes::s_addExtendedResolutionDNSErrors && packetWriter.getHeader()->rcode == static_cast<unsigned>(RCode::ServFail) && !vStateIsBogus(state);
+      if (comboWriter->d_extendedErrorCode || resolver.d_extendedError || (SyncRes::s_addExtendedResolutionDNSErrors && vStateIsBogus(state)) || bareServFail) {
         EDNSExtendedError::code code = EDNSExtendedError::code::Other;
         std::string extra;
 
@@ -1693,6 +1696,9 @@ void startDoResolve(void* arg) // NOLINT(readability-function-cognitive-complexi
         else if (resolver.d_extendedError) {
           code = static_cast<EDNSExtendedError::code>(resolver.d_extendedError->infoCode);
           extra = std::move(resolver.d_extendedError->extraText);
+        }
+        else if (bareServFail) {
+          extra = "Resolution failed";
         }
         else {
           switch (state) {
