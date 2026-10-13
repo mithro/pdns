@@ -1,0 +1,10 @@
+pdns-recursor (5.2.0-4) unstable; urgency=medium
+
+  The configuration file syntax has changed from the old key=value
+  format to YAML. You must manually migrate, otherwise the service
+  fails to (re-)start.
+
+  See the documentation on how to migrate:
+  https://doc.powerdns.com/recursor/yamlsettings.html
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 16 Mar 2025 12:57:05 +0100

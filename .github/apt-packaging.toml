@@ -1,0 +1,10 @@
+# What kind of packaging repository this is, and why it differs from the
+# defaults: mithro/apt-repo-action's docs/packaging.md ("The declaration").
+kind = "A"
+upstream = "https://github.com/PowerDNS/pdns"
+architectures = ["amd64", "arm64"]
+suites = ["forky", "sid"]
+
+[exceptions]
+PKG-ARCH = "upstream supports only 64-bit: Debian's debian/control build-depends on architecture-is-64-bit (pdns needs a 64-bit time_t), which rules out i386 and armhf. riscv64 would build under emulation, and a build that takes about an hour natively does not finish inside a job's time limit there."
+PKG-SUITES = "the recursor 5.4 packaging is Debian's for forky and sid; trixie has recursor 5.2, with an older rustc (1.85) and older crates that 5.4's debian/ was never built against. Raspbian has no 64-bit architecture."

@@ -1,0 +1,12 @@
+#!/bin/sh
+# pubsuffix.cc from a public suffix list on disk: what upstream's
+# pdns/recursordist/mkpubsuffixcc writes, without its download.
+set -e
+if [ ! -r "$1" ]; then
+  echo "Usage: $0 public_suffix_list.dat > pubsuffix.cc" >&2
+  exit 1
+fi
+echo '#include "pubsuffix.hh"'
+echo 'const std::string g_pubsuffix = '
+grep -v "//" "$1" | grep '\.' | grep -E '^[.0-9a-z-]*$' | sed -e 's/.*/"&\\n"/'
+echo ';'

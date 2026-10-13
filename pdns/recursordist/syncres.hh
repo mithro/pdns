@@ -654,7 +654,7 @@ private:
   void incTimeoutStats(const ComboAddress& remoteIP);
   void checkTotalTime(const DNSName& qname, QType qtype, std::optional<EDNSExtendedError>& extendedError) const;
   bool doResolveAtThisIP(const std::string& prefix, const DNSName& qname, QType qtype, LWResult& lwr, std::optional<Netmask>& ednsmask, const DNSName& auth, bool sendRDQuery, bool wasForwarded, const DNSName& nsName, const ComboAddress& remoteIP, bool doTCP, bool doDoT, bool& truncated, bool& spoofed, std::optional<EDNSExtendedError>& extendedError, bool dontThrottle = false);
-  bool processAnswer(unsigned int depth, const string& prefix, LWResult& lwr, const DNSName& qname, QType qtype, DNSName& auth, bool wasForwarded, const std::optional<Netmask>& ednsmask, bool sendRDQuery, NsSet& nameservers, std::vector<DNSRecord>& ret, const DNSFilterEngine& dfe, bool* gotNewServers, int* rcode, vState& state, const ComboAddress& remoteIP, bool overTCP);
+  bool processAnswer(unsigned int depth, const string& prefix, LWResult& lwr, const DNSName& qname, QType qtype, DNSName& auth, bool wasForwarded, const std::optional<Netmask>& ednsmask, bool sendRDQuery, NsSet& nameservers, std::vector<DNSRecord>& ret, const DNSFilterEngine& dfe, bool* gotNewServers, int* rcode, vState& state, const ComboAddress& remoteIP, bool overTCP, std::optional<EDNSExtendedError>& extendedError);
 
   int doResolve(const DNSName& qname, QType qtype, vector<DNSRecord>& ret, unsigned int depth, set<GetBestNSAnswer>& beenthere, Context& context);
   int doResolveNoQNameMinimization(const DNSName& qname, QType qtype, vector<DNSRecord>& ret, unsigned int depth, set<GetBestNSAnswer>& beenthere, Context& context, bool* fromCache = nullptr, StopAtDelegation* stopAtDelegation = nullptr);
@@ -712,7 +712,7 @@ private:
   void initZoneCutsFromTA(const DNSName& from, const string& prefix);
   size_t countSupportedDS(const dsset_t& dsSet, const string& prefix);
 
-  void handleNewTarget(const std::string& prefix, const DNSName& qname, const DNSName& newtarget, QType qtype, std::vector<DNSRecord>& ret, int& rcode, unsigned int depth, const std::vector<DNSRecord>& recordsFromAnswer, vState& state);
+  void handleNewTarget(const std::string& prefix, const DNSName& qname, const DNSName& newtarget, QType qtype, std::vector<DNSRecord>& ret, int& rcode, unsigned int depth, const std::vector<DNSRecord>& recordsFromAnswer, vState& state, std::optional<EDNSExtendedError>& extendedError);
 
   void handlePolicyHit(const std::string& prefix, const DNSName& qname, QType qtype, vector<DNSRecord>& ret, bool& done, int& rcode, unsigned int depth);
   unsigned int getAdjustedRecursionBound() const;

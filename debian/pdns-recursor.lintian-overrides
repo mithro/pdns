@@ -1,0 +1,6 @@
+# Source carries OpenSSL Exception
+pdns-recursor: possible-gpl-code-linked-with-openssl
+
+# serde_yaml uses a rust port of libyaml, not the C libyaml
+pdns-recursor: embedded-library libyaml [usr/bin/rec_control]
+pdns-recursor: embedded-library libyaml [usr/sbin/pdns_recursor]

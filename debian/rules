@@ -1,0 +1,95 @@
+#!/usr/bin/make -f
+
+# Turn on all hardening flags, as we're a networked daemon.
+# Note: blhc (build log hardening check) will find these false positives: CPPFLAGS 2 missing, LDFLAGS 1 missing
+# Disable LTO from dpkg-buildflags, as we need to set special options for Rust.
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all optimize=-lto
+# Use clang, lld so LTO is compatible across Rust and C++.
+export CC=clang
+export CXX=clang++
+# lld defaults to xxhash for build-ids, breaks dbgsym lookup
+export DEB_LDFLAGS_MAINT_APPEND = -fuse-ld=lld -Wl,--build-id=sha1
+# No -Clinker-plugin-lto in RUSTFLAGS: it makes the Rust library LLVM
+# bitcode, which lld can only read when clang and rustc are built on the
+# same LLVM. In forky and sid they are not (rustc 1.96 is LLVM 22, clang and
+# lld are 21), and the link fails: "librecrust.a(...): Invalid record". So
+# the Rust library is ordinary object code, and LTO covers the C++ only.
+
+include /usr/share/dpkg/default.mk
+include /usr/share/rustc/architecture.mk
+export CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+export DEB_HOST_RUST_TYPE DEB_HOST_GNU_TYPE
+
+export CARGO=/usr/share/cargo/bin/cargo
+export CARGO_HOME=$(CURDIR)/debian/cargo_home
+export DEB_CARGO_CRATE=$(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM)
+
+# for pdns makefile
+export RUSTC_TARGET_ARCH=$(DEB_HOST_RUST_TYPE)
+
+# Vendor and version
+CXXFLAGS += -DPACKAGEVERSION='"$(DEB_VERSION).$(DEB_VENDOR)"'
+
+# This is upstream's git tree, not the recursor's release tarball: the
+# recursor is one directory of it.
+REC = pdns/recursordist
+
+# The tarball carries its version. From git, upstream's version.sh would
+# describe our packaging branch instead (5.4.6.9.packaging.g1234567).
+export BUILDER_VERSION = $(DEB_VERSION_UPSTREAM)
+
+
+%:
+	dh $@ --buildsystem=meson --sourcedirectory=$(REC)
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f $(REC)/dnslabeltext.cc $(REC)/pubsuffix.cc
+	chmod +x $(REC)/mkpubsuffixcc || true
+	rm -rf debian/cargo_registry
+	rm -f target
+
+override_dh_auto_configure:
+	$(CARGO) prepare-debian debian/cargo_registry --link-from-system
+	echo> $(REC)/rec-rust-lib/rust/Cargo.lock
+	# The tarball ships pubsuffix.cc. Without it meson downloads the list.
+	debian/mkpubsuffixcc /usr/share/publicsuffix/public_suffix_list.dat > $(REC)/pubsuffix.cc
+	PATH=debian/configure-helpers/:$$PATH dh_auto_configure -- \
+		--sysconfdir=/etc/powerdns \
+		-Db_lto=true \
+		-Db_lto_mode=thin \
+		-Db_pie=true \
+		-Dreproducible=true \
+		-Dunit-tests=true \
+		-Dsystemd-service=enabled \
+		-Dsystemd-service-user=pdns \
+		-Dsystemd-service-group=pdns \
+		-Dlibcap=enabled \
+		-Dsigners-libsodium=enabled \
+		-Dsigners-libcrypto=enabled \
+		-Dlua=auto \
+		-Dsnmp=enabled \
+		-Ddns-over-tls=enabled \
+		-Ddnstap=enabled
+
+override_dh_auto_install:
+	dh_auto_install
+	install -d debian/pdns-recursor/usr/share/pdns-recursor/snmp
+	install -m 644 -t debian/pdns-recursor/usr/share/pdns-recursor/snmp $(REC)/RECURSOR-MIB.txt
+	rm -f debian/pdns-recursor/etc/powerdns/recursor.conf-dist
+	install -d debian/pdns-recursor/usr/share/doc/pdns-recursor/examples
+	mv debian/pdns-recursor/etc/powerdns/recursor.yml-dist debian/pdns-recursor/usr/share/doc/pdns-recursor/examples/
+	install -m 644 -t debian/pdns-recursor/etc/powerdns debian/recursor.conf
+	# workaround for static libs in non-default dir, see https://salsa.debian.org/rust-team/dh-cargo/-/issues/1
+	ln -s ./obj-*/target .
+	sed -e '/rustc-link-lib=static=recrust/d' -i target/*/release/build/recrust*/output
+	/usr/share/cargo/bin/dh-cargo-built-using pdns-recursor
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	dh_auto_test
+	-cat ./obj-*/meson-logs/testlog.txt
+endif
+
+override_dh_dwz:
+	# dwz fails on LLVM-linked programs, see #1016936.

@@ -685,7 +685,16 @@ int SyncRes::beginResolve(const DNSName& qname, const QType qtype, QClass qclass
 
   set<GetBestNSAnswer> beenthere;
   Context context;
-  int res = doResolve(qname, qtype, ret, depth, beenthere, context);
+  int res = RCode::ServFail;
+  try {
+    res = doResolve(qname, qtype, ret, depth, beenthere, context);
+  }
+  catch (const ImmediateServFailException&) {
+    // The caller turns this into a ServFail answer; let it have the reason, for example the
+    // one checkTotalTime() sets just before throwing.
+    d_extendedError = context.extendedError;
+    throw;
+  }
   d_queryValidationState = context.state;
   d_extendedError = context.extendedError;
 
@@ -2481,6 +2490,16 @@ static pair<bool, unsigned int> scanForCNAMELoop(const DNSName& name, const vect
   return {false, numCNames};
 }
 
+// The target of a CNAME is resolved in a Context of its own, so that its validation state can be
+// merged into ours. When that resolution fails, its extended error is the reason our answer is a
+// ServFail, so it has to survive as well.
+static void keepChaseError(const SyncRes::Context& chase, std::optional<EDNSExtendedError>& extendedError)
+{
+  if (chase.extendedError) {
+    extendedError = chase.extendedError;
+  }
+}
+
 bool SyncRes::doCNAMECacheCheck(const DNSName& qname, const QType qtype, vector<DNSRecord>& ret, unsigned int depth, const string& prefix, int& res, Context& context, bool wasAuthZone, bool wasForwardRecurse, bool checkForDups) // NOLINT(readability-function-cognitive-complexity)
 {
   vector<DNSRecord> cset;
@@ -2689,7 +2708,16 @@ bool SyncRes::doCNAMECacheCheck(const DNSName& qname, const QType qtype, vector<
       Context cnameContext;
       // Be aware that going out on the network might be disabled (cache-only), for example because we are in QM Step0,
       // so you can't trust that a real lookup will have been made.
-      res = doResolve(newTarget, qtype, ret, depth + 1, beenthere, cnameContext);
+      try {
+        res = doResolve(newTarget, qtype, ret, depth + 1, beenthere, cnameContext);
+      }
+      catch (const ImmediateServFailException&) {
+        keepChaseError(cnameContext, context.extendedError);
+        throw;
+      }
+      if (res != RCode::NoError && res != RCode::NXDomain) {
+        keepChaseError(cnameContext, context.extendedError);
+      }
       LOG(prefix << qname << ": Updating validation state for response to " << qname << " from " << context.state << " with the state from the DNAME/CNAME quest: " << cnameContext.state << endl);
       pdns::dedupRecords(ret); // multiple NSECS could have been added, #14120
       updateValidationState(qname, context.state, cnameContext.state, prefix);
@@ -3362,7 +3390,8 @@ void SyncRes::handlePolicyHit(const std::string& prefix, const DNSName& qname, c
       if (dnsRecord.d_name == qname && dnsRecord.d_type == QType::CNAME && qtype != QType::CNAME) {
         if (auto content = getRR<CNAMERecordContent>(dnsRecord)) {
           vState newTargetState = vState::Indeterminate;
-          handleNewTarget(prefix, qname, content->getTarget(), qtype.getCode(), ret, rcode, depth, {}, newTargetState);
+          std::optional<EDNSExtendedError> newTargetError;
+          handleNewTarget(prefix, qname, content->getTarget(), qtype.getCode(), ret, rcode, depth, {}, newTargetState, newTargetError);
         }
       }
     }
@@ -5715,7 +5744,7 @@ bool SyncRes::doResolveAtThisIP(const std::string& prefix, const DNSName& qname,
   return true;
 }
 
-void SyncRes::handleNewTarget(const std::string& prefix, const DNSName& qname, const DNSName& newtarget, const QType qtype, std::vector<DNSRecord>& ret, int& rcode, unsigned int depth, const std::vector<DNSRecord>& recordsFromAnswer, vState& state)
+void SyncRes::handleNewTarget(const std::string& prefix, const DNSName& qname, const DNSName& newtarget, const QType qtype, std::vector<DNSRecord>& ret, int& rcode, unsigned int depth, const std::vector<DNSRecord>& recordsFromAnswer, vState& state, std::optional<EDNSExtendedError>& extendedError)
 {
   if (newtarget == qname) {
     LOG(prefix << qname << ": Status=got a CNAME referral to self, returning SERVFAIL" << endl);
@@ -5763,12 +5792,21 @@ void SyncRes::handleNewTarget(const std::string& prefix, const DNSName& qname, c
 
   set<GetBestNSAnswer> beenthere;
   Context cnameContext;
-  rcode = doResolve(newtarget, qtype, ret, depth + 1, beenthere, cnameContext);
+  try {
+    rcode = doResolve(newtarget, qtype, ret, depth + 1, beenthere, cnameContext);
+  }
+  catch (const ImmediateServFailException&) {
+    keepChaseError(cnameContext, extendedError);
+    throw;
+  }
+  if (rcode != RCode::NoError && rcode != RCode::NXDomain) {
+    keepChaseError(cnameContext, extendedError);
+  }
   LOG(prefix << qname << ": Updating validation state for response to " << qname << " from " << state << " with the state from the CNAME quest: " << cnameContext.state << endl);
   updateValidationState(qname, state, cnameContext.state, prefix);
 }
 
-bool SyncRes::processAnswer(unsigned int depth, const string& prefix, LWResult& lwr, const DNSName& qname, const QType qtype, DNSName& auth, bool wasForwarded, const std::optional<Netmask>& ednsmask, bool sendRDQuery, NsSet& nameservers, std::vector<DNSRecord>& ret, const DNSFilterEngine& dfe, bool* gotNewServers, int* rcode, vState& state, const ComboAddress& remoteIP, bool overTCP)
+bool SyncRes::processAnswer(unsigned int depth, const string& prefix, LWResult& lwr, const DNSName& qname, const QType qtype, DNSName& auth, bool wasForwarded, const std::optional<Netmask>& ednsmask, bool sendRDQuery, NsSet& nameservers, std::vector<DNSRecord>& ret, const DNSFilterEngine& dfe, bool* gotNewServers, int* rcode, vState& state, const ComboAddress& remoteIP, bool overTCP, std::optional<EDNSExtendedError>& extendedError)
 {
   if (s_minimumTTL != 0) {
     for (auto& rec : lwr.d_records) {
@@ -5817,7 +5855,7 @@ bool SyncRes::processAnswer(unsigned int depth, const string& prefix, LWResult& 
   }
 
   if (!newtarget.empty()) {
-    handleNewTarget(prefix, qname, newtarget, qtype.getCode(), ret, *rcode, depth, lwr.d_records, state);
+    handleNewTarget(prefix, qname, newtarget, qtype.getCode(), ret, *rcode, depth, lwr.d_records, state, extendedError);
     return true;
   }
 
@@ -6006,7 +6044,7 @@ int SyncRes::doResolveAt(NsSet& nameservers, DNSName auth, bool flawedNSSet, con
         lwr.d_aabit = true;
 
         /* we have received an answer, are we done ? */
-        bool done = processAnswer(depth, prefix, lwr, qname, qtype, auth, false, ednsmask, sendRDQuery, nameservers, ret, luaconfsLocal->dfe, &gotNewServers, &rcode, context.state, s_oobRemote, false);
+        bool done = processAnswer(depth, prefix, lwr, qname, qtype, auth, false, ednsmask, sendRDQuery, nameservers, ret, luaconfsLocal->dfe, &gotNewServers, &rcode, context.state, s_oobRemote, false, context.extendedError);
         if (done) {
           return rcode;
         }
@@ -6124,7 +6162,7 @@ int SyncRes::doResolveAt(NsSet& nameservers, DNSName auth, bool flawedNSSet, con
           s_nsSpeeds.lock()->find_or_enter(tns->first.empty() ? DNSName(remoteIP->toStringWithPort()) : tns->first, d_now).submit(*remoteIP, static_cast<int>(lwr.d_usec), d_now);
 
           /* we have received an answer, are we done ? */
-          bool done = processAnswer(depth, prefix, lwr, qname, qtype, auth, wasForwarded, ednsmask, sendRDQuery, nameservers, ret, luaconfsLocal->dfe, &gotNewServers, &rcode, context.state, *remoteIP, overTCP);
+          bool done = processAnswer(depth, prefix, lwr, qname, qtype, auth, wasForwarded, ednsmask, sendRDQuery, nameservers, ret, luaconfsLocal->dfe, &gotNewServers, &rcode, context.state, *remoteIP, overTCP, context.extendedError);
           if (done) {
             return rcode;
           }

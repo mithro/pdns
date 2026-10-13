@@ -1,0 +1,1425 @@
+pdns-recursor (5.4.6-1) unstable; urgency=medium
+
+  * New upstream version 5.4.6
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 03 Sep 2026 10:40:21 +0200
+
+pdns-recursor (5.4.5-1) unstable; urgency=medium
+
+  * New upstream version 5.4.5, fixing CVE-2026-52682
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 06 Aug 2026 17:42:12 +0200
+
+pdns-recursor (5.4.4-1) unstable; urgency=medium
+
+  * New upstream version 5.4.4, fixing security issues
+    CVE-2026-52686, CVE-2026-52688.
+  * lintian: ignore embedded-library libyaml false-positive
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 22 Jul 2026 01:13:11 +0200
+
+pdns-recursor (5.4.3-1) unstable; urgency=medium
+
+  * New upstream version 5.4.3, fixing CVE-2026-33612, CVE-2026-40012,
+    CVE-2026-42005, CVE-2026-42390, CVE-2026-42389, CVE-2026-42388,
+    CVE-2026-42387, CVE-2026-52690
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 26 Jun 2026 18:47:40 +0200
+
+pdns-recursor (5.4.2-2) unstable; urgency=medium
+
+  [ Luca Boccassi ]
+  * Install and use sysusers.d config file
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 21 Jun 2026 16:39:51 +0200
+
+pdns-recursor (5.4.2-1) unstable; urgency=medium
+
+  * New upstream version 5.4.2
+  * d/watch: update to version 5
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 03 Jun 2026 10:39:35 +0200
+
+pdns-recursor (5.4.1-2) unstable; urgency=medium
+
+  * d/rules: drop useless override_dh_gencontrol
+  * Remove unused boost Build-Depends
+  * Always build with luajit, available on all release archs
+  * Enable LTO, like upstream
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 30 May 2026 00:44:33 +0200
+
+pdns-recursor (5.4.1-1) unstable; urgency=medium
+
+  * New upstream version 5.4.1, fixing security issues:
+    CVE-2026-33256, CVE-2026-33257, CVE-2026-33258, CVE-2026-33259,
+    CVE-2026-33260, CVE-2026-33261, CVE-2026-33262, CVE-2026-33601,
+    CVE-2026-33600
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 22 Apr 2026 15:15:12 +0200
+
+pdns-recursor (5.4.0-1) unstable; urgency=medium
+
+  * New upstream version 5.4.0
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 09 Mar 2026 13:56:39 +0100
+
+pdns-recursor (5.3.5-1) unstable; urgency=medium
+
+  * New upstream version 5.3.5
+    Fixes CVE-2026-24027, CVE-2026-0398 (Closes: #1127490)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 11 Feb 2026 15:13:35 +0100
+
+pdns-recursor (5.3.4-2) unstable; urgency=medium
+
+  * Drop Build-Depends: libboost-system-dev
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 05 Feb 2026 23:34:17 +0100
+
+pdns-recursor (5.3.4-1) unstable; urgency=medium
+
+  * New upstream version 5.3.4
+  * Rebase patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 14 Jan 2026 12:32:52 +0100
+
+pdns-recursor (5.3.3-1) unstable; urgency=medium
+
+  * New upstream version 5.3.3
+    Fixes CVE-2025-59029 (Closes: #1122196),
+    Fixes CVE-2025-59030 (Closes: #1122197).
+  * Preserve recursor.lua on upgrades, but not as conffile
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 09 Dec 2025 11:01:36 +0100
+
+pdns-recursor (5.3.1-1) unstable; urgency=medium
+
+  * New upstream version 5.3.1, fixes CVE-2025-59023 and CVE-2025-59024.
+    (Closes: #1118751)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 22 Oct 2025 18:01:37 +0200
+
+pdns-recursor (5.3.0-5) unstable; urgency=medium
+
+  * Fix endian issue in tests on s390x
+  * d/copyright: Remove old FSF address
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 07 Sep 2025 14:17:42 +0200
+
+pdns-recursor (5.3.0-4) unstable; urgency=medium
+
+  * Fix incorrectly applied rust-fix-build-with-multiple-available-cargos patch.
+    Causes startup failure while reading the YAML config.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 06 Sep 2025 21:53:52 +0200
+
+pdns-recursor (5.3.0-3) unstable; urgency=medium
+
+  * d/rules: stop setting CARGO_REGISTRY, fixes Static-Built-Using
+  * Build with meson instead of autotools
+  * Remove obsolete lintian overrides
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 06 Sep 2025 18:43:24 +0200
+
+pdns-recursor (5.3.0-2) unstable; urgency=medium
+
+  * d/rules: fix DEB_VERSION/DEB_VENDOR being empty.
+    Thanks to Steve Mokris <steve@kosada.com>
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 02 Sep 2025 23:06:05 +0200
+
+pdns-recursor (5.3.0-1) unstable; urgency=medium
+
+  * d/watch: update upstream URL (xz)
+  * New upstream version 5.3.0
+  * Relax crate requirements
+  * Update crate dependencies
+  * Update path to internal rust crate
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 28 Aug 2025 20:32:46 +0200
+
+pdns-recursor (5.2.5-1) unstable; urgency=medium
+
+  * New upstream version 5.2.5
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 26 Aug 2025 19:44:06 +0200
+
+pdns-recursor (5.2.4-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 25 Jul 2025 03:03:18 +0200
+
+pdns-recursor (5.2.4-1) experimental; urgency=medium
+
+  * New upstream version 5.2.4, fixing CVE-2025-30192.
+    (Closes: #1109808)
+  * Upload to experimental.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 24 Jul 2025 10:18:06 +0200
+
+pdns-recursor (5.2.2-2) unstable; urgency=medium
+
+  * Really emit (X-Cargo-|Static-)Built-Using fields (Closes: #1109579)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 20 Jul 2025 12:57:46 +0200
+
+pdns-recursor (5.2.2-1) unstable; urgency=medium
+
+  * New upstream version 5.2.2
+  * Drop upstream applied patch
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 09 Apr 2025 23:19:32 +0200
+
+pdns-recursor (5.2.1-1) unstable; urgency=high
+
+  * New upstream version 5.2.1
+    Includes fix for CVE-2025-30195
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 07 Apr 2025 14:53:24 +0200
+
+pdns-recursor (5.2.0-5) unstable; urgency=medium
+
+  * Add NEWS about the configuration format change (Closes: #1100582)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 16 Mar 2025 13:07:57 +0100
+
+pdns-recursor (5.2.0-4) unstable; urgency=medium
+
+  * Use serde-yaml again, to allow testing migration
+  * Ship default configuration as a file in source (Closes: #1098691)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 24 Feb 2025 11:54:35 +0100
+
+pdns-recursor (5.2.0-3) unstable; urgency=medium
+
+  * d/control: set X-Style: black
+  * d/tests: set isolation-container for smoke test
+  * Correctly install default config file, remove old recursor.lua
+  * d/tests/smoke: fix config patching (Closes: #1098302)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 21 Feb 2025 15:28:33 +0100
+
+pdns-recursor (5.2.0-2) unstable; urgency=medium
+
+  * d/control: drop mips, mipsel workarounds (Closes: #1096172)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 17 Feb 2025 11:01:29 +0100
+
+pdns-recursor (5.2.0-1) unstable; urgency=medium
+
+  * New upstream version 5.2.0
+  * Drop debian/upstream/signing-key.asc
+  * Rebase patches
+  * Update rust dependencies
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 10 Feb 2025 23:59:00 +0100
+
+pdns-recursor (5.1.3-2) unstable; urgency=medium
+
+  * Drop obsolete upgrade code from 4.3.0-1
+  * Use rust crates from debian
+  * tests: follow rename of dnsutils to bind9-dnsutils
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 10 Feb 2025 16:24:35 +0100
+
+pdns-recursor (5.1.3-1) unstable; urgency=medium
+
+  * New upstream version 5.1.3
+  * Add tool for updating vendor patch
+  * Refresh patches
+  * Update vendored crates
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 13 Nov 2024 11:29:16 +0100
+
+pdns-recursor (5.0.9-1) unstable; urgency=medium
+
+  * New upstream version 5.0.9, fixing CVE-2024-25590
+    (Closes: #1083285)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 07 Oct 2024 10:43:00 +0200
+
+pdns-recursor (5.0.7-2) unstable; urgency=medium
+
+  * Apply workaround for finding libcrypto (Closes: #1078387)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 11 Aug 2024 14:39:49 +0200
+
+pdns-recursor (5.0.7-1) unstable; urgency=medium
+
+  * New upstream version 5.0.7 (Closes: #1060733)
+  * Drop upstream-applied patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 06 Jul 2024 18:57:10 +0200
+
+pdns-recursor (5.0.5-1) unstable; urgency=medium
+
+  * d/watch: switch to 5.x branch
+  * New upstream version 5.0.5
+  * Refresh testrunner-log-verbosity patch
+  * Vendor required rust crates
+  * Build-Depend on cargo
+  * Add patch to fix systemd version detection
+  * Install recursor.yml-dist into /usr/share/doc
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 25 May 2024 18:02:13 +0200
+
+pdns-recursor (4.9.5-1) unstable; urgency=medium
+
+  * New upstream version 4.9.5, including fix for CVE-2024-25583
+    (Closes: #1069762)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 24 Apr 2024 14:19:26 +0200
+
+pdns-recursor (4.9.4-1) unstable; urgency=medium
+
+  * New upstream version 4.9.4
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 15 Apr 2024 13:46:50 +0200
+
+pdns-recursor (4.9.3-1) unstable; urgency=medium
+
+  * New upstream version 4.9.3, including fixes for
+    CVE-2023-50387 and CVE-2023-50868. (Closes: #1063852)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 14 Feb 2024 17:18:22 +0100
+
+pdns-recursor (4.9.2-2) unstable; urgency=medium
+
+  * Add Build-Depends systemd-dev | systemd (Closes: #1060615)
+    We need all of libsystemd-dev, systemd.pc, and systemctl.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 12 Jan 2024 12:42:34 +0100
+
+pdns-recursor (4.9.2-1) unstable; urgency=medium
+
+  * New upstream version 4.9.2
+  * Drop upstream applied patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 10 Nov 2023 23:17:09 +0100
+
+pdns-recursor (4.9.1-4) unstable; urgency=medium
+
+  * Switch from pkg-config to pkgconf
+  * Automatically discover systemdsystemunitdir
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 21 Oct 2023 16:57:04 +0200
+
+pdns-recursor (4.9.1-3) unstable; urgency=medium
+
+  * Build-Depend on libboost-filesystem-dev
+  * Apply wrap-and-sort -kas
+  * Update Vcs-* headers for move to debian namespace
+  * Remove debci workaround introduced in 4.9.0-2,
+    mitigated in debci.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 11 Sep 2023 16:09:17 +0200
+
+pdns-recursor (4.9.1-2) unstable; urgency=medium
+
+  * Build with libboost-context-dev on more architectures
+  * Apply upstream patch to fix building with ucontext and gcc-13
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 25 Aug 2023 23:11:22 +0200
+
+pdns-recursor (4.9.1-1) unstable; urgency=medium
+
+  * New upstream version 4.9.1
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 25 Aug 2023 11:09:13 +0200
+
+pdns-recursor (4.9.0-2) unstable; urgency=medium
+
+  * autopkgtest: workaround debci isolation problems
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 10 Jul 2023 16:54:50 +0200
+
+pdns-recursor (4.9.0-1) unstable; urgency=medium
+
+  * New upstream version 4.9.0
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 04 Jul 2023 10:56:03 +0200
+
+pdns-recursor (4.8.4-1) unstable; urgency=medium
+
+  * New upstream version 4.8.4
+    * Fixes CVE-2023-26437, see
+      https://doc.powerdns.com/recursor/security-advisories/powerdns-advisory-2023-02.html
+      (Closes: #1033941)
+    * Fixes high CPU usage caused by serve-stale logic.
+    * Fixes DNSSEC validation issues for some domains served by popular
+      DNS software by F5.
+    * Downgrades severity for a few log messages.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 04 Apr 2023 11:10:26 +0000
+
+pdns-recursor (4.8.2-1) unstable; urgency=medium
+
+  * New upstream version 4.8.2
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 31 Jan 2023 16:46:42 +0000
+
+pdns-recursor (4.8.1-1) unstable; urgency=medium
+
+  * New upstream version 4.8.1
+    Fixes CVE-2023-22617
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 21 Jan 2023 14:46:48 +0000
+
+pdns-recursor (4.8.0-2) unstable; urgency=medium
+
+  * Build-Depend on architecture-is-64-bit (for time_t) (Closes: #1023277)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 25 Dec 2022 11:01:09 +0000
+
+pdns-recursor (4.8.0-1) unstable; urgency=medium
+
+  [ Manuel A. Fernandez Montecelo ]
+  * Add support for riscv64 arch (Closes: #1025040)
+
+  [ Chris Hofstaedtler ]
+  * New upstream version 4.8.0
+  * Refresh patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 13 Dec 2022 08:20:45 +0000
+
+pdns-recursor (4.7.4-1) unstable; urgency=medium
+
+  * New upstream version 4.7.4
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 25 Nov 2022 13:16:18 +0000
+
+pdns-recursor (4.7.3-2) unstable; urgency=medium
+
+  * Set explicit architecture list.
+    A better solution than hard-coded lists or letting builds fail would be
+    much welcome.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 01 Nov 2022 16:50:18 +0000
+
+pdns-recursor (4.7.3-1) unstable; urgency=medium
+
+  * New upstream version 4.7.3
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 08 Oct 2022 12:15:07 +0000
+
+pdns-recursor (4.7.2-1) unstable; urgency=medium
+
+  * New upstream version 4.7.2
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 24 Aug 2022 07:05:24 +0000
+
+pdns-recursor (4.7.1-1) unstable; urgency=medium
+
+  * New upstream version 4.7.1
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 14 Jul 2022 09:22:38 +0000
+
+pdns-recursor (4.6.2-1) unstable; urgency=medium
+
+  * New upstream version 4.6.2
+  * Remove no longer necessary path for OpenSSL 3.0
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 14 Apr 2022 20:23:45 +0000
+
+pdns-recursor (4.6.1-1) unstable; urgency=medium
+
+  * New upstream version 4.6.1, fixing CVE-2022-27227
+  * Fix build with OpenSSL 3.0.
+    Thanks to Steve Langasek <steve.langasek@canonical.com> (Closes: #1006520)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 28 Mar 2022 11:03:20 +0000
+
+pdns-recursor (4.6.0-1) unstable; urgency=medium
+
+  * New upstream version 4.6.0
+  * Enable DNS-over-TLS, adding libcurl dependency
+  * d/watch: Release version constraint
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 17 Dec 2021 12:07:54 +0000
+
+pdns-recursor (4.5.7-1) unstable; urgency=medium
+
+  * New upstream version 4.5.7
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 05 Nov 2021 10:47:46 +0000
+
+pdns-recursor (4.5.6-1) unstable; urgency=medium
+
+  * New upstream version 4.5.6
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 30 Oct 2021 18:23:55 +0000
+
+pdns-recursor (4.5.5-1) unstable; urgency=medium
+
+  * New upstream version 4.5.5
+    * Refresh patches
+    * Upstream dropped support for archs with 32bit time_t values
+  * Unconditionally enable libcap
+  * Build with fixed luajit on arm64
+  * d/watch: Update for 4.5 branch
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 20 Aug 2021 17:00:03 +0000
+
+pdns-recursor (4.4.2-3) unstable; urgency=medium
+
+  * autopkgtest: show journal on service restart failure
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 24 Jan 2021 21:28:21 +0000
+
+pdns-recursor (4.4.2-2) unstable; urgency=medium
+
+  * Bump Standards-Version to 4.5.1
+  * Build with luajit on amd64, and Lua 5.1 on other archs.
+    Once #908137 is fixed, we should enable luajit on arm64 too.
+    Unfortunately we were building with Lua 5.2 earlier, so this
+    is a feature "regression" of sorts - but it can be much faster.
+  * Solely rely on publicsuffix at runtime for current data.
+    If public-suffix-list-file gets disabled in the runtime config, fall
+    back to the upstream-supplied copy of the public suffix list, instead
+    of what gets shipped in the publicsuffix package at build time.
+    This spares us from declaing a Built-Using relation, which is annoying
+    for security updates. When running with the suggested configuration,
+    there are no changes to behaviour.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 17 Dec 2020 21:02:37 +0000
+
+pdns-recursor (4.4.2-1) unstable; urgency=medium
+
+  * New upstream version 4.4.2
+  * Drop upstream applied patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 14 Dec 2020 12:26:33 +0000
+
+pdns-recursor (4.4.1-1) unstable; urgency=medium
+
+  * New upstream version 4.4.1
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 25 Nov 2020 21:12:52 +0000
+
+pdns-recursor (4.4.0-2) unstable; urgency=medium
+
+  * Add upstream patch to fix APL tests on big endian
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 24 Nov 2020 15:38:21 +0000
+
+pdns-recursor (4.4.0-1) unstable; urgency=medium
+
+  * Update d/watch for 4.4.x series
+  * New upstream version 4.4.0 (Closes: #975592)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 23 Nov 2020 22:17:50 +0000
+
+pdns-recursor (4.3.5-1) unstable; urgency=medium
+
+  * New upstream version 4.3.5
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 19 Oct 2020 07:55:50 +0000
+
+pdns-recursor (4.3.4-1) unstable; urgency=medium
+
+  * New upstream version 4.3.4
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 08 Sep 2020 20:50:53 +0000
+
+pdns-recursor (4.3.3-1) unstable; urgency=medium
+
+  * New upstream version 4.3.3
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 17 Jul 2020 09:53:55 +0000
+
+pdns-recursor (4.3.2-1) unstable; urgency=medium
+
+  * d/upstream/metadata: add Bug-Submit URL
+  * New upstream version 4.3.2
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 07 Jul 2020 17:28:15 +0000
+
+pdns-recursor (4.3.1-1) unstable; urgency=medium
+
+  * New upstream version 4.3.1, includes fixes for security issues
+    CVE-2020-10995, CVE-2020-12244, CVE-2020-10030.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 19 May 2020 16:14:57 +0000
+
+pdns-recursor (4.3.0-2) unstable; urgency=medium
+
+  * Stop embedding version in shipped config file
+  * Stop embedding a timestamp in shipped config file
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 01 May 2020 21:54:26 +0000
+
+pdns-recursor (4.3.0-1) unstable; urgency=medium
+
+  * New upstream version 4.3.0, drop upstream applied patches
+    (Closes: #957674)
+  * Use debhelper v13, bump Standards-Version to 4.5.0
+  * Enable Dnstap feature
+  * Follow upstream socket-dir path and service user change.
+    This also drops the init script: the socket-dir is now in a dynamically
+    created path, and pdns-recursor expects to be started as non-root already.
+    Both changes are unfeasible to support under a legacy init.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 29 Apr 2020 18:20:05 +0000
+
+pdns-recursor (4.2.1-1) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Set fields Upstream-Contact in debian/copyright.
+  * Remove obsolete fields Name, Contact from debian/upstream/metadata.
+
+  [ Chris Hofstaedtler ]
+  * rootkeys.lua: remove superfluous clearTA and add comment about refresh time.
+    Thanks to Pieter Lexis <pieter.lexis@powerdns.com>
+  * Bump Standards-Version to 4.4.1
+  * Restrict d/watch to 4.2 releases
+  * New upstream version 4.2.1
+    * Refresh testrunner verbosity patch
+    * Remove patches merged upstream
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 09 Dec 2019 19:26:00 +0000
+
+pdns-recursor (4.2.0-6) unstable; urgency=medium
+
+  * Improve test reliability using patch from upstream.
+    Hopefully fixes FTBFS on mipsel once more, in test_dnssec_secure_various_algos.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 23 Jul 2019 00:05:05 +0000
+
+pdns-recursor (4.2.0-5) unstable; urgency=medium
+
+  * Improve test reliability using patch from upstream.
+    Hopefully fixes FTBFS on mips, in test_auth_zone_delegation.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 22 Jul 2019 15:26:07 +0000
+
+pdns-recursor (4.2.0-4) unstable; urgency=medium
+
+  * d/rules: make lintian happy about override_dh_auto_test
+  * Build with libcap only on Linux archs
+  * d/control, d/rules: sync with dnsdist, pdns
+  * Filter net-snmp-config flags, see #870734
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 21 Jul 2019 21:39:31 +0000
+
+pdns-recursor (4.2.0-3) unstable; urgency=medium
+
+  * Ship DEP12 UpstreamMetadata per user request
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 21 Jul 2019 13:23:57 +0000
+
+pdns-recursor (4.2.0-2) unstable; urgency=medium
+
+  * Apply patch from upstream to fix FTBFS on platforms not having boost-context
+  * Build with libboost-context-dev on ppc64el
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 16 Jul 2019 12:28:49 +0000
+
+pdns-recursor (4.2.0-1) unstable; urgency=medium
+
+  * New upstream version 4.2.0
+    * Patch testrunner-log-verbosity: refresh.
+    * Patch stack-size: refresh.
+    * d/rules: update configure args for libsodium
+    * Ignore lintian error about pdns-recursor@.service
+    * New required build-dependencies: libboost-system-dev,
+      libboost-thread-dev, systemd.
+  * Load data from publicsuffix package at startup
+  * Remove deprecated, sysvinit-only resolvconf integration
+  * Build with SNMP support (again)
+  * Build with libcap
+  * Update rootkeys.lua to use new built-in functionality
+  * Use debhelper-compat 12
+  * Bump Standards-Version to 4.4.0
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 15 Jul 2019 17:23:47 +0000
+
+pdns-recursor (4.1.11-1) unstable; urgency=medium
+
+  * New upstream version 4.1.11
+  * Upstream has applied the patch introduced in 4.1.10-2, remove it.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 03 Feb 2019 15:02:43 +0000
+
+pdns-recursor (4.1.10-2) unstable; urgency=high
+
+  * Apply patch from upstream to avoid timing issue in tests
+  * Keeping urgency=high to allow migration of the security fix in 4.1.9-1
+    after the mipsel build failure.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 24 Jan 2019 16:19:32 +0000
+
+pdns-recursor (4.1.10-1) unstable; urgency=high
+
+  * New upstream version 4.1.10, fixing build without protobuf,
+    which is not a problem in Debian.
+  * Re-add stack-size patch, hoping it fixes the mipsel build failure
+  * Keeping urgency=high to allow migration of the security fix in 4.1.9-1
+    after the mipsel build failure.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 24 Jan 2019 14:53:59 +0000
+
+pdns-recursor (4.1.9-1) unstable; urgency=high
+
+  * New upstream version 4.1.9, including fixes for:
+    CVE-2019-3806 CVE-2019-3807.
+  * Remove upstream applied patches.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 21 Jan 2019 13:08:42 +0000
+
+pdns-recursor (4.1.8-2) unstable; urgency=medium
+
+  * Apply patch from upstream to avoid transient test failure on slow archs
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 28 Nov 2018 12:32:23 +0000
+
+pdns-recursor (4.1.8-1) unstable; urgency=medium
+
+  * New upstream version 4.1.8, including fix for CVE-2018-16855.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 26 Nov 2018 15:22:39 +0000
+
+pdns-recursor (4.1.7-1) unstable; urgency=medium
+
+  * New upstream version 4.1.7, including fixes for:
+    CVE-2018-10851 CVE-2018-14626 CVE-2018-14644
+    (Closes: #913162).
+  * Remove upstream applied patch.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 09 Nov 2018 19:44:44 +0000
+
+pdns-recursor (4.1.4-3) unstable; urgency=medium
+
+  * Run MTasker test with the stack-size pdns_recursor would use
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 09 Sep 2018 19:29:51 +0000
+
+pdns-recursor (4.1.4-2) unstable; urgency=medium
+
+  * Show results of make check in build logs
+  * Remove override_dh_strip, ddeb migration is complete
+  * Move lintian source overrides to non-deprecated location
+  * Use debhelper compat level 11
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sun, 09 Sep 2018 16:11:21 +0000
+
+pdns-recursor (4.1.4-1) unstable; urgency=medium
+
+  * Bump Standards-Version to 4.2.1
+  * New upstream version 4.1.4
+  * Load DNSSEC root keys from dns-root-data package (Closes: #760470)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 03 Sep 2018 07:55:52 +0000
+
+pdns-recursor (4.1.3-2) unstable; urgency=medium
+
+  * d/rules: sync build options from pdns package.
+    Includes: hardening=+all instead of +bindnow,+pie. Use dpkg
+    make macros to derive current version and vendor. Force enable
+    -Wall.
+  * Update copyright format URL and years
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 26 Jul 2018 11:31:22 +0000
+
+pdns-recursor (4.1.3-1) unstable; urgency=medium
+
+  * New upstream version 4.1.3
+  * Remove upstream applied patches (all)
+  * Bump Standards-Version to 4.1.5
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 23 Jul 2018 06:56:51 +0000
+
+pdns-recursor (4.1.2-1) unstable; urgency=medium
+
+  * New upstream version 4.1.2, remove upstream applied patches.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 29 Mar 2018 17:18:23 +0000
+
+pdns-recursor (4.1.1-2) unstable; urgency=medium
+
+  * Replace obsolete priority extra with optional
+  * Add a default include-dir= setting
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 23 Feb 2018 10:41:09 +0000
+
+pdns-recursor (4.1.1-1) unstable; urgency=medium
+
+  * New upstream version 4.1.1
+  * Drop upstream applied, refresh other patches
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 22 Jan 2018 19:03:19 +0000
+
+pdns-recursor (4.1.0-5) unstable; urgency=medium
+
+  * Avoid boost-context on platforms where it is broken
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 19 Jan 2018 22:12:09 +0000
+
+pdns-recursor (4.1.0-4) unstable; urgency=medium
+
+  * Update Maintainer: as alioth is going away
+  * Update Vcs-* URLs to point to salsa.debian.org
+  * Bump Standards-Version to 4.1.3 (no changes)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Thu, 18 Jan 2018 20:46:32 +0000
+
+pdns-recursor (4.1.0-3) unstable; urgency=medium
+
+  * Add patch from James Cowgill <jcowgill@debian.org> to fix
+    crashes on mips64el. Thanks for analysis and the patch! (Closes: #887034)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 12 Jan 2018 21:11:55 +0000
+
+pdns-recursor (4.1.0-2) unstable; urgency=medium
+
+  * Add patches from upstream improving test reliability.
+  * Bump Standards-Version to 4.1.2 (no changes).
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 12 Dec 2017 09:51:18 +0000
+
+pdns-recursor (4.1.0-1) unstable; urgency=medium
+
+  * New upstream version 4.1.0, upload to unstable.
+  * Build with libsodium for DNSSEC algo 15 support.
+  * Enable unit tests during build time.
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 04 Dec 2017 15:20:54 +0000
+
+pdns-recursor (4.1.0~rc3-1) experimental; urgency=medium
+
+  * New upstream version 4.1.0~rc3
+  * Update upstream signing key
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 27 Nov 2017 21:02:42 +0000
+
+pdns-recursor (4.1.0~alpha1-1) experimental; urgency=medium
+
+  * New upstream version 4.1.0~alpha1
+  * Bump Standards-Version to 4.1.1 (no changes)
+  * Remove Build-Depends: satisfied by debhelper >= 10
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 10 Oct 2017 05:46:20 +0000
+
+pdns-recursor (4.0.7-1) unstable; urgency=medium
+
+  * New upstream version 4.0.7, fixes CVE-2017-15090 CVE-2017-15092
+    CVE-2017-15093 CVE-2017-15094.
+  * Update upstream signing key
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 27 Nov 2017 21:05:16 +0000
+
+pdns-recursor (4.0.6-1) unstable; urgency=medium
+
+  * New upstream version 4.0.6
+  * Drop upstream applied patches
+  * Drop RestrictAddressFamilies workaround for 32bit hosts, relevant only
+    for some versions of systemd in stretch.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 11 Jul 2017 17:56:13 +0000
+
+pdns-recursor (4.0.5-2) unstable; urgency=medium
+
+  * Move -latomic handling into upstream hands,
+    including a patch from upstream to fix FTBFS on ppc64el.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 04 Jul 2017 13:07:56 +0000
+
+pdns-recursor (4.0.5-1) unstable; urgency=medium
+
+  * New upstream version 4.0.5.
+  * Drop upstream applied patches.
+  * Bump Standards-Version to 4.0.0.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 04 Jul 2017 10:50:08 +0000
+
+pdns-recursor (4.0.4-2) unstable; urgency=medium
+
+  * Add new root trust anchor KSK-2017 to embedded root trust list.
+    (Closes: #866112)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 27 Jun 2017 12:31:08 +0000
+
+pdns-recursor (4.0.4-1) unstable; urgency=medium
+
+  * New upstream version, fixing security issues CVE-2016-7068 and
+    CVE-2016-7073 CVE-2016-7074.
+  * Also includes DNSSEC improvements, parts of which we carried as
+    patches already.
+  * Drop upstream applied patches.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 14 Jan 2017 03:03:18 +0000
+
+pdns-recursor (4.0.3-6) unstable; urgency=medium
+
+  * Upload to unstable again.
+  * Import further patches from upstream to fix DNSSEC and RPZ issues.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 02 Jan 2017 22:15:58 +0000
+
+pdns-recursor (4.0.3-5+exp3) experimental; urgency=medium
+
+  * Add file missing from dist tarball so pubsuffix.cc can be rebuilt
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 02 Jan 2017 14:41:26 +0000
+
+pdns-recursor (4.0.3-5+exp2) experimental; urgency=medium
+
+  * Build-Depend on ragel to ensure dnslabeltext.cc is rebuilt.
+  * Take public suffix list from publicsuffix package at build time.
+  * Bump dh compat to 10, remove now obsolete extra args/build-depends.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 02 Jan 2017 10:54:55 +0000
+
+pdns-recursor (4.0.3-5+exp1) experimental; urgency=medium
+
+  * Allow building with boost::fcontext again, by importing
+    more patches from upstream.
+  * Target experimental, but hope that fcontext works on all
+    architectures anyway.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 02 Jan 2017 09:59:15 +0000
+
+pdns-recursor (4.0.3-5) unstable; urgency=medium
+
+  * Drop RestrictAddressFamilies from .service file on 32bit.
+    This feature is broken in systemd before v233. (See also #849817)
+  * Add patches from upstream 4.0 series branch.
+    Fixes a crash in DNSSEC validation (in getZoneCuts) and in
+    statistics code.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 31 Dec 2016 15:37:18 +0000
+
+pdns-recursor (4.0.3-4) unstable; urgency=medium
+
+  * Add patches from upstream fixing DNSSEC, RPZ issues
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 11 Dec 2016 11:50:37 +0000
+
+pdns-recursor (4.0.3-3) unstable; urgency=medium
+
+  * Drop our lsb-base dependency to avoid versioning it
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 11 Oct 2016 03:08:20 +0000
+
+pdns-recursor (4.0.3-2) unstable; urgency=medium
+
+  * Disable systemd integration on non-Linux archs. Patch from
+    Pino Toscano <pino@debian.org>. (Closes: #834235)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 10 Oct 2016 14:30:03 +0000
+
+pdns-recursor (4.0.3-1) unstable; urgency=medium
+
+  * New upstream version 4.0.3.
+    * Drop upstream applied patches.
+    * Disable check for boost fcontext, as its API has changed in boost 1.61.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Wed, 07 Sep 2016 08:39:15 +0000
+
+pdns-recursor (4.0.2-1) unstable; urgency=medium
+
+  * New upstream version 4.0.2
+  * Add patches from upstream to fix build with OpenSSL 1.1.0 final (again)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 05 Sep 2016 19:00:33 +0000
+
+pdns-recursor (4.0.1-1) unstable; urgency=medium
+
+  * New upstream version. (Closes: #828491)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 30 Jul 2016 20:44:16 +0000
+
+pdns-recursor (4.0.0-3) unstable; urgency=medium
+
+  * postinst: Remove redundant guard around addgroup/adduser
+  * debian/watch: Fix versionmangle for rc releases
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 18 Jul 2016 07:31:27 +0000
+
+pdns-recursor (4.0.0-2) unstable; urgency=medium
+
+  * Drop --retry in initscript stop action (Closes: #768078)
+  * Drop initscript force-stop action.
+    Which would use killall and as such not be safe on a container host.
+  * Deprecate resolvconf integration and flip default to off
+  * Drop "Replaces: pdns" which has not been needed since wheezy
+  * Drop version on Depends: lsb-base, which is already fulfilled in oldstable
+  * Drop upgrade code from versions before oldoldstable
+  * Ensure daemon startup errors do not cause dpkg to fail
+  * Update package description
+  * Drop unused lintian overrides
+  * Drop unused update-rc.d parameters
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Wed, 13 Jul 2016 11:22:54 +0200
+
+pdns-recursor (4.0.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 11 Jul 2016 11:35:46 +0200
+
+pdns-recursor (4.0.0~rc1-2) unstable; urgency=medium
+
+  * Move package to pkg-dns team
+  * Update debhelper dependency for dbgsym options
+  * Improve reproducibility by sorting included files
+  * Inform lintian about OpenSSL Exception
+  * Remove unused license from debian/copyright
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 03 Jul 2016 11:19:38 +0200
+
+pdns-recursor (4.0.0~rc1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Fri, 10 Jun 2016 21:58:56 +0000
+
+pdns-recursor (4.0.0~beta1-2) unstable; urgency=medium
+
+  * Update debian/copyright.
+  * Build with upstreams systemd support and use it.
+  * Raise LimitNOFILE to match default mthread setting (again).
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 29 May 2016 21:05:49 +0000
+
+pdns-recursor (4.0.0~beta1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * debian/watch: fix missing versionmangle setting
+  * Drop DNSSEC disabling patch, in favor of upstreams new
+    process-no-validate default.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 28 May 2016 18:24:02 +0000
+
+pdns-recursor (4.0.0~alpha3-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Drop upstream applied patch for boost detection.
+  * Bump Standards-Version to 3.9.8 (no changes needed)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Thu, 12 May 2016 20:35:07 +0000
+
+pdns-recursor (4.0.0~alpha2-2) unstable; urgency=medium
+
+  * Apply patch from upstream to fix build without
+    boost::context, hopefully fixing missing builds on arm64, s390x.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 28 Mar 2016 12:15:09 +0000
+
+pdns-recursor (4.0.0~alpha2-1) unstable; urgency=medium
+
+  * New Upstream version 4.0.0~alpha2, with autotools build system.
+    (Closes: #809091)
+  * Disable DNSSEC processing for this release, per upstream recommendation.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Wed, 09 Mar 2016 15:22:59 +0000
+
+pdns-recursor (4.0.0~alpha1-3) unstable; urgency=medium
+
+  * Update systemd unit file from upstream
+  * Drop pdns-recursor-dbg in favor of automated dbgsym packages
+  * Disable secpoll by default
+  * Use root hints from dns-root-data package (Closes: #760470)
+  * Drop Build-Depends: quilt, as we just rely on dpkg-source
+  * Increase LimitNOFILE to a size suitable for default mthreads
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Thu, 25 Feb 2016 00:02:07 +0000
+
+pdns-recursor (4.0.0~alpha1-2) unstable; urgency=medium
+
+  * Manage daemon flag in init script, not in config file.
+    For users that get this wrong in their recursor.conf.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 26 Dec 2015 23:25:30 +0000
+
+pdns-recursor (4.0.0~alpha1-1) unstable; urgency=medium
+
+  * Imported Upstream version 4.0.0~alpha1
+  * debian/watch: Add upstream signature check
+  * Update debian/copyright
+  * Generate recursor.conf during build
+  * Install example files
+  * Enable reproducible build
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Fri, 25 Dec 2015 17:47:26 +0000
+
+pdns-recursor (3.7.3-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.7.3 (prevent short bursts of high
+    resource usage with malformed qnames).
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 14 Jun 2015 21:18:28 +0200
+
+pdns-recursor (3.7.2-1) unstable; urgency=medium
+
+  * Stop recommending long gone pdns-doc package
+  * Imported Upstream version 3.7.2 (Fixes CVE-2015-1868)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 21 Apr 2015 19:13:05 +0200
+
+pdns-recursor (3.7.1-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.7.1
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 14 Apr 2015 22:30:54 +0200
+
+pdns-recursor (3.6.2-2) unstable; urgency=medium
+
+  * Set package vendor for security status polling.
+    Requires directly including buildflags.mk so d/rules can modify
+    CXXFLAGS. (Closes: #767701)
+  * d/control: Update Vcs-Git and Vcs-Browser
+  * Fix "smoke" autopkgtest.
+    The test definition was incorrectly copied from the pdns-server
+    package.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 15 Nov 2014 17:42:26 +0100
+
+pdns-recursor (3.6.2-1) unstable; urgency=high
+
+  * Imported Upstream version 3.6.2, a bugfix release (Closes: #767368)
+  * Remove API key patch, which has been incorporated upstream.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Thu, 30 Oct 2014 17:22:19 +0100
+
+pdns-recursor (3.6.1-3) unstable; urgency=medium
+
+  * Apply API key patch from upstream
+  * Bump Standards-Version to 3.9.6 (no further changes)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 21 Oct 2014 21:31:43 +0200
+
+pdns-recursor (3.6.1-2) unstable; urgency=medium
+
+  * Drop patch 'pdns-recursor-less-chatty'
+  * Ship native systemd unit file
+  * Enable extra hardening flags (PIE, bindnow)
+  * Add smoke test, testing example.org resolution
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 13 Sep 2014 19:21:43 +0200
+
+pdns-recursor (3.6.1-1) unstable; urgency=high
+
+  * Imported Upstream version 3.6.1
+    Fixes security issue: CVE-2014-3614
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 09 Sep 2014 22:55:49 +0200
+
+pdns-recursor (3.6.0-2) unstable; urgency=medium
+
+  [ Christian Hofstaedtler ]
+  * Update debian/copyright file
+  * Remove boilerplate from debian/watch
+  * Update init script options:
+    Removed X-Start-After and X-Stop-Before, which were sent to irrelevant
+    services, and updated Description fields.
+  * Add status target to init script.
+    Thanks to Iain Georgeson <debian@iain.georgeson.me.uk> (Closes: #730684)
+
+  [ SATOH Fumiyasu ]
+  * Enable resolvconf hooks only when $RESOLVCONF is set to 'yes'
+    (Closes: #722659)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 24 Jun 2014 13:27:38 +0200
+
+pdns-recursor (3.6.0-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.6.0
+  * Drop upstream applied patches 1443, 1444, 1445
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Fri, 20 Jun 2014 12:34:10 +0200
+
+pdns-recursor (3.6.0~rc1-2) unstable; urgency=medium
+
+  * Switch to Lua 5.2
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 09 Jun 2014 20:12:24 +0200
+
+pdns-recursor (3.6.0~rc1-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.6.0~rc1
+  * Replace local patches with upstream PRs
+    do-not-strip-binaries, hurd-ftbfs-patch, kfreebsd-ftbfs-patch and
+    remove-pdns_hw-patch are now pending upstream approval and merge.
+  * Add myself to Uploaders
+  * Bump Standards-Version to 3.9.5
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sun, 01 Jun 2014 17:39:35 +0200
+
+pdns-recursor (3.5.3-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Matthijs Möhlmann <matthijs@cacholong.nl>  Sun, 22 Sep 2013 14:45:58 +0200
+
+pdns-recursor (3.5.2-2) unstable; urgency=low
+
+  * Enable on all architectures (Closes: #579194)
+
+ -- Matthijs Möhlmann <matthijs@cacholong.nl>  Sat, 24 Aug 2013 16:13:37 +0200
+
+pdns-recursor (3.5.2-1) unstable; urgency=low
+
+  * New upstream version (Closes: #710048, #682851, #671592, #697355, #649724)
+    - Refresh patches
+  * Improve the patch to make pdns-recursor less chatty
+  * Standards-Version: 3.9.4 (no changes necessary)
+  * Remove pdns_hw on cleanup (Closes: #652833)
+
+ -- Matthijs Möhlmann <matthijs@cacholong.nl>  Tue, 06 Aug 2013 21:43:01 +0200
+
+pdns-recursor (3.3-3) unstable; urgency=low
+
+  * new maintainer team
+  * new Vcs links
+  * add Homepage
+  * debhelper 9 (enable hardening) (Closes: 656859)
+  * prepare new version
+  * set unapply-patches
+  * set Architecture to "all but arm{el,hf}" (Closes: 661959)
+  * Standards-Version: 3.9.3 (no changes necessary)
+
+ -- Marc Haber <mh+debian-packages@zugschlus.de>  Mon, 18 Jun 2012 14:45:50 +0000
+
+pdns-recursor (3.3-2) unstable; urgency=low
+
+  * Fix my name in the init script and debian/control too.
+  * Update Standards-Version to 3.9.2
+  * Use new build system dh instead of individual dh_* commands.
+
+ -- Matthijs Möhlmann <matthijs@cacholong.nl>  Mon, 08 Aug 2011 11:56:58 +0200
+
+pdns-recursor (3.3-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #565052)
+  * Init loop is fixed in pdns (Closes: #594805)
+  * Now my name is spelled correctly.
+  * Update Standards-Version to 3.9.1
+  * Update the recursor.conf and include new configuration parameters.
+  * Add debug package (Closes: #594243)
+
+ -- Matthijs Möhlmann <matthijs@cacholong.nl>  Sat, 22 Jan 2011 16:39:02 +0100
+
+pdns-recursor (3.2-4) unstable; urgency=high
+
+  * Upgrading from a previous version fails when the pdns-recursor isn't
+    started, this is RC bug hence urgency high. (Closes: #565415)
+  * Fix watch file
+  * Fix FTBFS on hurd again.
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Tue, 20 Jul 2010 13:42:45 +0200
+
+pdns-recursor (3.2-3) unstable; urgency=low
+
+  * Add watch file
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Fix FTBFS on hurd
+  * Update logcheck rules. (Closes: #588135)
+  * Update Standards-Version to 3.9.0
+  * Use dh_installinit instead of the pdns-recursor.install file.
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Mon, 19 Jul 2010 14:39:02 +0200
+
+pdns-recursor (3.2-2) unstable; urgency=low
+
+  * Remove Christoph Haas from Uploaders. Thanks for the great work!
+  * Add fix for FTBFS thanks to Petr Salinger <Petr.Salinger@seznam.cz>
+    (Closes: #575006)
+  * Make pdns-recursor on startup less chatty (Closes: #438469)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sat, 03 Apr 2010 13:46:23 +0200
+
+pdns-recursor (3.2-1) unstable; urgency=low
+
+  * New upstream version.
+  * Update Standards-Version to 3.8.4
+  * Fix boot order, thanks to Petter Reinholdtsen (Closes: #566877)
+  * All architectures enabled, needs testing (Closes: #489925)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Wed, 17 Mar 2010 10:59:28 +0100
+
+pdns-recursor (3.1.7.2-1) unstable; urgency=high
+
+  * New upstream version. (CVE-2009-4009 and CVE-2009-4010) (Closes: #564145)
+  * Make lintian happy.
+  * Now really add sh4 to the architecture list. (Closes: #551153)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Fri, 08 Jan 2010 18:14:44 +0100
+
+pdns-recursor (3.1.7.1-4) unstable; urgency=low
+
+  * Add mips, mipsel and sh4 to the supported list of architectures, only arm,
+    armel and armeb are missing. See #369453 (Closes: #551153)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Fri, 06 Nov 2009 18:09:29 +0100
+
+pdns-recursor (3.1.7.1-3) unstable; urgency=low
+
+  * Update incorrect dependencies in the init.d script. (Closes: #547033)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 11 Oct 2009 18:46:58 +0200
+
+pdns-recursor (3.1.7.1-2) unstable; urgency=low
+
+  * Fixing FTBFS on several archs (Closes: #540867, #541689)
+  * Added hppa and sparc architectures. See #489925, leaving open because of
+    more unsupported architectures.
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 16 Aug 2009 15:39:54 +0200
+
+pdns-recursor (3.1.7.1-1) unstable; urgency=low
+
+  * New upstream release (Closes: #497920)
+  * Using new patch system quilt.
+  * Updated Standards-Version to 3.8.2
+  * Enable lua scripting support (Closes: #534893)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 09 Aug 2009 12:58:06 +0200
+
+pdns-recursor (3.1.7-5) unstable; urgency=low
+
+  * Fix FTBFS bug with GCC 4.4 (closes: #506003)
+  * Make pdns-recursor available on hppa and sparc (closes: #489925)
+    by adding libc6-dev in a recent version to debian/control
+
+ -- Christoph Haas <haas@debian.org>  Wed, 13 May 2009 21:36:55 +0200
+
+pdns-recursor (3.1.7-4) unstable; urgency=low
+
+  * Fix FTBFS bug (closes: #528164)
+
+ -- Christoph Haas <haas@debian.org>  Mon, 11 May 2009 22:24:44 +0200
+
+pdns-recursor (3.1.7-3) unstable; urgency=low
+
+  * Fixed repository URL (SVN->Git)
+  * Increased policy version to 3.8.0 (lintian warning)
+  * Added proper description for gcc-4.2-ftbfs-fix.dpatch dpatch
+    (lintian warning)
+  * Fixed PIDFILE setting in init.d script (thanks to Serge Belyshev)
+
+ -- Christoph Haas <haas@debian.org>  Sun, 14 Sep 2008 22:48:59 +0200
+
+pdns-recursor (3.1.7-2) unstable; urgency=low
+
+  * Regard return code from stopping pdns in init.d script (Closes: #478593)
+  * Fixed init.d script's force-stop function.
+
+ -- Christoph Haas <haas@debian.org>  Sun, 14 Sep 2008 17:36:42 +0200
+
+pdns-recursor (3.1.7-1) unstable; urgency=low
+
+  * New upstream version (Closes: #490069) (Closes: #477130)
+  * init.d scripts gets socket-dir information from recursor.conf
+    (Closes: #471568)
+  * Added config file directives
+  * Set dont-query to nothing so it won't break pre-3.1.7 configs. (Closes: #476841)
+
+ -- Christoph Haas <haas@debian.org>  Mon, 31 Mar 2008 21:51:59 +0200
+
+pdns-recursor (3.1.4-6) unstable; urgency=low
+
+  * Standards-Version 3.7.3.0
+  * Remove pdns_hw too on cleanup.
+  * Fix for truncating long TXT queries (Closes: #462114)
+  * Don't ignore build errors (Closes: #462128)
+  * Build option noopt was inoperative (Closes: #462126)
+  * Added gcc 4.3 fixes from upstream (Closes: #455631)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Wed, 13 Feb 2008 22:49:08 +0100
+
+pdns-recursor (3.1.4-5) unstable; urgency=low
+
+  * daemon=no is now working if used in /etc/powerdns/recursor.conf
+    (Closes: #440020)
+  * patch added to reflect change of L root server (Closes: #449483)
+  * Makefile patched to prevent stripping of binaries (Closes: #437765)
+
+ -- Christoph Haas <haas@debian.org>  Fri, 09 Nov 2007 21:57:58 +0100
+
+pdns-recursor (3.1.4-4) unstable; urgency=low
+
+  * Update to debhelper 5.
+  * Fix lintian warning: debian-rules-sets-DH_COMPAT.
+  * Restore the changelog, it was partly removed by accident. (Closes: #421393)
+  * Fix FTBFS with gcc-4.2 (Closes: #387113)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 03 Jun 2007 15:11:22 +0200
+
+pdns-recursor (3.1.4-3) unstable; urgency=low
+
+  * Stop/stop script does not return an error code when being called as
+    'stop' when the service is actually not running. (Closes: #406428)
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Wed, 21 Feb 2007 23:10:00 +0200
+
+pdns-recursor (3.1.4-2) unstable; urgency=medium
+
+  * Run pdns-recursor by default as non-privileged user. (Closes: #399669)
+  * swapcontext is supported by kfreebsd (Fixes a FTBFS) (Closes: #403746)
+  * Added lsb-base to the dependencies. (Closes: #402732)
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Mon, 25 Dec 2006 14:00:10 +0100
+
+pdns-recursor (3.1.4-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 12 Nov 2006 23:52:20 +0100
+
+pdns-recursor (3.1.3-3) unstable; urgency=low
+
+  [ Matthijs Mohlmann ]
+  * Don't build pdns-recursor for the following architectures: arm, mips,
+    mipsel, hppa and sparc. No support for swapcontext system call.
+    (Closes: #395801)
+  * Fix a big endian problem with TCP processing large answers.
+  * Fix a crash on any record we couldn't properly print for whatever reason.
+
+ -- Matthijs Mohlmann <matthijs@cacholong.nl>  Sun, 29 Oct 2006 17:50:34 +0100
+
+pdns-recursor (3.1.3-2) unstable; urgency=low
+
+  * Added patch to close a connectionless socket on an error.
+  * Added patch to fix a FD leak.
+  * Added missing lsb keyword Short-Description.
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Sun,  1 Oct 2006 14:52:46 +0200
+
+pdns-recursor (3.1.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Make a lsb compliant init script, fixes a lintian warning.
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Thu, 14 Sep 2006 21:20:56 +0200
+
+pdns-recursor (3.1.2-2) unstable; urgency=low
+
+  * Added patch to fix crashes on 64bit platforms (Closes: #380403)
+  * Added patch to prevent overwriting of auth data by unauth data.
+  * Fix a small memleak.
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Sun,  6 Aug 2006 13:20:45 +0200
+
+pdns-recursor (3.1.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop build-with-g++-4.1 patch. g++ 4.1 is default now. (Closes: #376696)
+  * Fixed minor typo in recursor.conf (Closes: #369957)
+  * Add logcheck rule for pdns-recursor to suppress logcheck warnings.
+    (Closes: #367702)
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Tue,  4 Jul 2006 19:16:19 +0200
+
+pdns-recursor (3.1.1-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Wed, 24 May 2006 19:41:09 +0200
+
+pdns-recursor (3.0.1-1) unstable; urgency=low
+
+  * New upstream release (Closes: #366681)
+
+ -- Debian PowerDNS Maintainers <powerdns-debian@workaround.org>  Tue, 25 Apr 2006 21:27:26 +0200

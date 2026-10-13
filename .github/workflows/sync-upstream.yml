@@ -1,0 +1,88 @@
+name: Sync upstream
+
+# Set A sync (mithro/apt-repo-action docs/packaging.md, "Workflows"):
+#   1. fast-forward `upstream` to PowerDNS/pdns' recursor release branch, and
+#      copy its rec-* release tags (the version is made from them);
+#   2. unless `packaging` already contains it, open (or update) the pull
+#      request "Merge upstream <describe>" from sync/upstream into packaging.
+# It only ever fetches from PowerDNS/pdns; everything it pushes or opens is
+# in this repository.
+#
+# The workflow token can't push commits that change .github/workflows/, and
+# upstream's do. Set the repository secret SYNC_TOKEN (a fine-grained token
+# for this repository with Contents, Pull requests and Workflows write) and
+# the sync uses it instead.
+on:
+  schedule:
+    - cron: "23 5 * * 1"   # weekly
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    env:
+      UPSTREAM_URL: https://github.com/PowerDNS/pdns.git
+      # The release branch the package follows. A new minor series
+      # (rel/rec-5.5.x) is a change here, made by a person.
+      UPSTREAM_BRANCH: rel/rec-5.4.x
+      GH_TOKEN: ${{ secrets.SYNC_TOKEN || github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: packaging
+          fetch-depth: 0
+          token: ${{ secrets.SYNC_TOKEN || github.token }}
+
+      - name: Fast-forward upstream
+        id: ff
+        run: |
+          set -eu
+          git fetch --no-tags "$UPSTREAM_URL" "$UPSTREAM_BRANCH" 'refs/tags/rec-*:refs/tags/rec-*'
+          new=$(git rev-parse FETCH_HEAD)
+          old=$(git rev-parse origin/upstream)
+          if [ "$new" = "$old" ]; then
+            echo "upstream is already at $new"
+          else
+            git merge-base --is-ancestor "$old" "$new" || {
+              echo "::error::upstream's $UPSTREAM_BRANCH ($new) doesn't contain our upstream branch ($old): it was rewritten. Not forcing it; this needs a person."
+              exit 1
+            }
+            git push origin "$new:refs/heads/upstream"
+          fi
+          git push origin 'refs/tags/rec-*:refs/tags/rec-*'
+          echo "commit=$new" >> "$GITHUB_OUTPUT"
+
+      - name: Open the merge pull request
+        env:
+          NEW: ${{ steps.ff.outputs.commit }}
+        run: |
+          set -eu
+          if git merge-base --is-ancestor "$NEW" origin/packaging; then
+            echo "packaging already contains upstream $NEW"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B sync/upstream origin/packaging
+          ver=$(git describe --tags --match 'rec-[0-9]*' "$NEW")
+          git merge --no-ff --no-edit -m "Merge upstream $ver" "$NEW" || {
+            git merge --abort
+            echo "::warning::merging upstream $NEW conflicts; opening the pull request from upstream itself for a person to resolve"
+            git checkout -B sync/upstream "$NEW"
+          }
+          git push --force origin sync/upstream
+          title="Merge upstream $ver"
+          body="Fast-forwarded \`upstream\` to PowerDNS/pdns@$NEW. Before merging, replace the committed man pages with the new release tarball's (packaging/README.md, \"Updating to a new upstream\"). Merge this with a merge commit (docs/packaging.md, \"Versions\")."
+          if gh pr view sync/upstream --repo "$GITHUB_REPOSITORY" --json state --jq .state | grep -qx OPEN; then
+            gh pr edit sync/upstream --repo "$GITHUB_REPOSITORY" --title "$title" --body "$body"
+          else
+            gh pr create --repo "$GITHUB_REPOSITORY" --base packaging --head sync/upstream --title "$title" --body "$body"
+          fi
