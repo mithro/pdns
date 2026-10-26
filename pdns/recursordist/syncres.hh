@@ -408,9 +408,11 @@ public:
     return d_DNSSECValidationRequested && !d_wasOutOfBand;
   }
 
-  void setWantsRPZ(bool state = true)
+  bool setWantsRPZ(bool state = true)
   {
+    bool old = d_wantsRPZ;
     d_wantsRPZ = state;
+    return old;
   }
 
   bool getWantsRPZ() const
@@ -441,6 +443,13 @@ public:
   bool wasOutOfBand() const
   {
     return d_wasOutOfBand;
+  }
+
+  bool setOutOfBand(bool flag)
+  {
+    bool old = d_wasOutOfBand;
+    d_wasOutOfBand = flag;
+    return old;
   }
 
   struct timeval getNow() const
